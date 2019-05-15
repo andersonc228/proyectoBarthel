@@ -5,9 +5,9 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Register Doctor</div>
+                    <div class="card-header">Register Administrator</div>
                     <div class="card-body">
-                        <form method="POST" action="{{ url('/registers/registerDoctor') }}">
+                        <form method="POST" action="{{ url('/registers/registerAdministrator') }}">
                             @csrf
                             <div class="form-group container">
                                 <label for="name">DNI *:</label>
@@ -25,7 +25,7 @@
                                 <label for="name">Password *:</label>
                                 <input class="form-control" type="password" id="password" name="password" value="{{ old('password') }}" />
                                 <label for="name">Repeat Password *:</label>
-                                <input class="form-control" type="password" id="password2" name="password" value="{{ old('password2') }}" />
+                                <input class="form-control" type="password" id="password2" name="password2" value="{{ old('password2') }}" />
                             </div>
                             <div class="form-group container">
                                 <button class="btn btn-success" type="submit">create</button>

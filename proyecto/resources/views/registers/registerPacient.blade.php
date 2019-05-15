@@ -5,9 +5,9 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Register Doctor</div>
+                    <div class="card-header">Register Pacient</div>
                     <div class="card-body">
-                        <form method="POST" action="{{ url('/registers/registerDoctor') }}">
+                        <form method="POST" action="{{ url('/registers/registerPacient') }}">
                             @csrf
                             <div class="form-group container">
                                 <label for="name">DNI *:</label>
@@ -18,8 +18,6 @@
                                 <input class="form-control" type="text" id="surname" name="surname" value="{{ old('surname') }}" />
                                 <label for="name">Email *:</label>
                                 <input class="form-control" type="text" id="email" name="email" value="{{ old('email') }}" />
-                                <label for="name">Profession *:</label>
-                                <input class="form-control" type="text" id="profession" name="profession" value="{{ old('profession') }}" />
                                 <label for="name">Born Date *:</label>
                                 <input class="form-control" type="date" id="bornDate" name="bornDate" value="{{ old('bornDate') }}" />
                                 <label for="name">Password *:</label>

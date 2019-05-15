@@ -74,31 +74,57 @@ class RegisterController extends Controller
             'bornDate' => $data['bornDate'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            //'profesion' => $data['profesion'],
         ]);
 
         $user->roles()->attach(Role::where('name', 'admin')->get());
 
-        $user
-            ->roles()
-            ->attach(Role::where('name', 'user')->first());
+        // $user
+        //     ->roles()
+        //     ->attach(Role::where('name', 'user')->first());
         return $user;
     }
 
     public static function createPacient($data)
     {
         $user = User::create([
-            'dni' => $data['nif'],
+            'dni' => $data['dni'],
             'name' => $data['name'],
             'surname' => $data['surname'],
             'bornDate' => $data["bornDate"],
             'email' => $data['email'],
-            'password' => bcrypt($data['nif']),
-            //'profesion' => $data['profesion'],
+            'password' => bcrypt($data['password']),
         ]);
 
         $user->roles()->attach(Role::where('name', 'pacient')->get());
-
         
+    }
+    public static function createDoctor($data)
+    {
+        $user = User::create([
+            'dni' => $data['dni'],
+            'name' => $data['name'],
+            'surname' => $data['surname'],
+            'bornDate' => $data["bornDate"],
+            'email' => $data['email'],
+            'password' => bcrypt($data[ 'password']),
+            'profesion' => $data['profession'],
+        ]);
+
+        $user->roles()->attach(Role::where('name', 'doctor')->get());  
+    }
+
+    public static function createAdministrator($data)
+    {
+        $user = User::create([
+            'dni' => $data['dni'],
+            'name' => $data['name'],
+            'surname' => $data['surname'],
+            'bornDate' => $data["bornDate"],
+            'email' => $data['email'],
+            'password' => bcrypt($data[ 'password']),
+            'profesion' => $data['profession'],
+        ]);
+
+        $user->roles()->attach(Role::where('name', 'admin')->get());  
     }
 }

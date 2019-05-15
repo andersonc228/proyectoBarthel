@@ -16,4 +16,8 @@ class DoctorController extends Controller
         RegisterController::createPacient($request->all());
     }
 
+    public function makeAppointment(){
+        
+    }
+
 }

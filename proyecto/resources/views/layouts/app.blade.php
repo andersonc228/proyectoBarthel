@@ -43,26 +43,60 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
-                            {{-- @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif --}}
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
+                                    
+                                @if(Auth::user()->hasRole('admin'))
                                     <a class="dropdown-item" href="{{ route('registerDoctor') }}">
                                         Register Doctor
                                     </a>
-
+                                     <a class="dropdown-item" href="{{ route('registerPacient') }}">
+                                        Register Pacient
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('registerAdministrator') }}">
+                                        Register Administrator
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('find') }}">
+                                        Find User
+                                    </a>         
+                                @endif
+                                @if(Auth::user()->hasRole('doctor'))
+                                     <a class="dropdown-item" href="{{ route('registerPacient') }}">
+                                        Register Pacient
+                                    </a>
+                                     <a class="dropdown-item" href="{{ route('makeTest') }}">
+                                        Make Test
+                                    </a>
+                                    <a class="dropdown-item" href="">
+                                        Appointments
+                                    </a>
+                                    <a class="dropdown-item" href="">
+                                        Search Pacient
+                                    </a>
+                                    <a class="dropdown-item" href="">
+                                        View Results
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('find') }}">
+                                        Find Pacient
+                                    </a>                                                                        
+                                @endif
+                                @if(Auth::user()->hasRole('pacient'))
+                                <a class="dropdown-item" href="">
+                                        Appointments
+                                </a>
+                                <a class="dropdown-item" href="">
+                                        View Result
+                                </a> 
+                                @endif
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                </a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
@@ -73,7 +107,6 @@
                 </div>
             </div>
         </nav>
-
         <main class="py-4">
             @yield('content')
         </main>
