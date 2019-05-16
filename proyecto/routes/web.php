@@ -31,4 +31,5 @@ Route::Post( 'registers/registerDoctor', 'AdministratorController@createDoctor')
 Route::Post( 'registers/registerPacient', 'AdministratorController@createPacient');
 Route::Post( 'registers/registerAdministrator', 'AdministratorController@createAdministrator');
 Route::Post('registers/registerPacient', 'DoctorController@createPacient');
+Route::Post( 'test/create', 'DoctorController@makeTest');
 

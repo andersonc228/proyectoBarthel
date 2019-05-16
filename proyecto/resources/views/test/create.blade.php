@@ -87,7 +87,7 @@
 
                                 <div class="form-group col-6">
                                     <label for="name">Micturition(assess the previous week) *:</label>
-                                    <select id="hour" name="hour" class="form-control">
+                                    <select id="micturition" name="micturition" class="form-control">
                                         <option value="0"></option>
                                         <option value="0">Normal continence, or is capable of taking care of the probe if it has</option>
                                         <option value="5">A daily episode of incontinence, or need help to take care of the probe</option>
