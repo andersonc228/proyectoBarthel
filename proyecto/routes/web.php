@@ -19,7 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/welcome', );
+//Route::get('/welcome');
 
 Route::view('registers/registerDoctor', 'registers.registerDoctor')->name('registerDoctor');
 Route::view('registers/registerPacient', 'registers.registerPacient')->name('registerPacient');
@@ -32,4 +32,9 @@ Route::Post( 'registers/registerPacient', 'AdministratorController@createPacient
 Route::Post( 'registers/registerAdministrator', 'AdministratorController@createAdministrator');
 Route::Post('registers/registerPacient', 'DoctorController@createPacient');
 Route::Post( 'test/create', 'DoctorController@makeTest');
+Route::Post( 'find', 'DoctorController@find');
+
+Route::Post('/pacient/modify', 'DoctorController@modify');
+
+Route::get('/pacient/edit/{id}', 'DoctorController@edit');
 

@@ -22,10 +22,6 @@
                                 <input class="form-control" type="text" id="profession" name="profession" value="{{ old('profession') }}" />
                                 <label for="name">Born Date *:</label>
                                 <input class="form-control" type="date" id="bornDate" name="bornDate" value="{{ old('bornDate') }}" />
-                                <label for="name">Password *:</label>
-                                <input class="form-control" type="password" id="password" name="password" value="{{ old('password') }}" />
-                                <label for="name">Repeat Password *:</label>
-                                <input class="form-control" type="password" id="password2" name="password2" value="{{ old('password2') }}" />
                             </div>
                             <div class="form-group container">
                                 <button class="btn btn-success" type="submit">create</button>

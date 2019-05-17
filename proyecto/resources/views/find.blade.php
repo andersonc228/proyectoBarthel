@@ -1,4 +1,3 @@
-
 @extends('home')
 
 @section('content')
@@ -19,7 +18,7 @@
                             @csrf
                             <div class="form-group">
                                 <label for="id">DNI *:</label>
-                                <input class="form-control" type="text" id="dni" name="dni" value="" />
+                                <input class="form-control" type="text" id="dni" name="dni" value="{{ $dni ?? old('dni') }}" />
                             </div>
                             <div class="form-group">
                                 <button class="btn btn-success" type="submit">Find</button>

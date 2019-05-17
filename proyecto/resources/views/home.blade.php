@@ -1,8 +1,12 @@
 @extends('layouts.app')
 
-@section('content')
+@section('main')
 <div class="container">
     <div class="row justify-content-center">
+    <div class="col-md-8">
+        @yield('message')
+    </div>
+        @section('content')
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">Welcome {{ Auth::user()->name }}</div>
@@ -22,5 +26,7 @@
             </div>
         </div>
     </div>
+    @show
 </div>
 @endsection
+

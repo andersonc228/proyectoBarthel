@@ -19,6 +19,7 @@ class AdministratorController extends Controller
 
         if ($this->validatePassword($pass1, $pass2)) {
             $message = "User Created";
+            //dd("guarada");
             RegisterController::createDoctor($request->all());
             return view('registers.registerPacient', ['message' => $message]);
         } else {

@@ -21,7 +21,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm fixed-top">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                    Barthel Index
@@ -30,7 +30,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="collapse navbar-collapse " id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
 
@@ -62,7 +62,7 @@
                                     </a>
                                     <a class="dropdown-item" href="{{ route('find') }}">
                                         Find User
-                                    </a>         
+                                    </a>        
                                 @endif
                                 @if(Auth::user()->hasRole('doctor'))
                                      <a class="dropdown-item" href="{{ route('registerPacient') }}">
@@ -74,15 +74,12 @@
                                     <a class="dropdown-item" href="">
                                         Appointments
                                     </a>
-                                    <a class="dropdown-item" href="">
+                                    <a class="dropdown-item" href="{{ route('find') }}">
                                         Search Pacient
                                     </a>
                                     <a class="dropdown-item" href="">
                                         View Results
-                                    </a>
-                                    <a class="dropdown-item" href="{{ route('find') }}">
-                                        Find Pacient
-                                    </a>                                                                        
+                                    </a>                                                                          
                                 @endif
                                 @if(Auth::user()->hasRole('pacient'))
                                 <a class="dropdown-item" href="">
@@ -107,8 +104,9 @@
                 </div>
             </div>
         </nav>
+        <br><br><br>
         <main class="py-4">
-            @yield('content')
+            @yield('main')
         </main>
     </div>
 </body>

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Request;
+use App\Http\Controllers\HomeController;
 
 class RegisterController extends Controller
 {
@@ -92,7 +93,7 @@ class RegisterController extends Controller
             'surname' => $data['surname'],
             'bornDate' => $data["bornDate"],
             'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'password' => bcrypt($data['dni']),
         ]);
 
         $user->roles()->attach(Role::where('name', 'pacient')->get());
@@ -106,7 +107,7 @@ class RegisterController extends Controller
             'surname' => $data['surname'],
             'bornDate' => $data["bornDate"],
             'email' => $data['email'],
-            'password' => bcrypt($data[ 'password']),
+            'password' => bcrypt($data[ 'dni']),
             'profesion' => $data['profession'],
         ]);
 
@@ -121,7 +122,7 @@ class RegisterController extends Controller
             'surname' => $data['surname'],
             'bornDate' => $data["bornDate"],
             'email' => $data['email'],
-            'password' => bcrypt($data[ 'password']),
+            'password' => bcrypt($data[ 'dni']),
             'profesion' => $data['profession'],
         ]);
 

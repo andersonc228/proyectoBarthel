@@ -5,40 +5,131 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Reports;
+use Illuminate\Foundation\Auth\User;
 
 class DoctorController extends Controller
 {
 
 
-    public function createPacient(Request $request){
 
-        print_r($request->all());
+    /**
+     * function validate the data input 
+     */
+    public function validateData(Request $request)
+    {
+        $alphabetic = "/^[a-z]*$/i";
+        $password = "/^[a-z]*$/i";
 
-        RegisterController::createPacient($request->all());
+        $request->validate([
+            'name' => "required|min:1|max:30|regex:$alphabetic",
+            'surname' => "required|min:1|max:30|regex:$alphabetic",
+            'email' => "required|min:1|max:30",
+            'dni' => "required|unique:users|min:1",
+            'bornDate' => "required|min:1|max:30|regex:$alphabetic",
+        ]);
+    }
+    public function createPacient(Request $request)
+    {
+
+        //validar los datos fuera para practicas
+        //$this->validateData($request);
+        //validate dni
+        //$this->validateDni($request->dni());
+        try {
+            RegisterController::createPacient($request->all());
+            $message = "Pacient Created";
+
+        } catch (\Exception $ex) {
+
+            if ($ex->getCode() == 23000) {
+                $message = "Pacient alredy Exist";
+            } else {
+                $message = "No Data created - " . $ex->getMessage();
+            }
+        }
+        //dd($pacient = User::where("dni", $request->dni)->first());
+
+        return view('registers.registerPacient', ['message' => $message]);
     }
 
-    public function makeTest(Request $request){
+    public function makeTest(Request $request)
+    {
 
         $reports = new Reports();
 
-        $reports->q1 = $request-> eat;
+
+
+        $reports->q1 = $request->eat;
         $reports->q2 = $request->micturition;
-        $reports->q3 = $request-> dressup;
-        $reports->q4 = $request-> stools;
-        $reports->q5 = $request-> toilet;
-        $reports->q6 = $request-> wander;
-        $reports->q7 = $request-> traveling;
-        $reports->q8 = $request-> wash;
-        $reports->q9 = $request-> hour;
-        $reports->q10 = $request-> micturition;
+        $reports->q3 = $request->dressup;
+        $reports->q4 = $request->stools;
+        $reports->q5 = $request->toilet;
+        $reports->q6 = $request->wander;
+        $reports->q7 = $request->traveling;
+        $reports->q8 = $request->wash;
+        $reports->q9 = $request->hour;
+        $reports->q10 = $request->micturition;
         $reports->total = 100; //por ahora
-        $reports->dniPacient = 12345 ;//por ahora
+        $reports->dniPacient = 12345; //por ahora
         $reports->save();
 
-        echo json_encode( $reports);
+        echo json_encode($reports);
 
         return view("test.create");
-
     }
 
+
+    public function find(Request $request)
+    {
+
+        if (!empty($request->dni)) {
+
+
+            $message = ($pacient = User::where("dni", $request->dni)->first());
+
+
+            //dd($pacient = User::where($request->dni));
+
+            //dd($pacient);
+
+            // \dd($pacient);
+
+            //$this->validateDni($request->dni);
+
+            return view("find", ['message' => $message]); //->with('pacient',$pacient);
+
+        }
+
+        $message = "Input DNI";
+
+        return view("find", ['message' => $message]); //->with('pacient',$pacient);
+    }
+
+
+    public function edit($dni)
+    {
+
+        try {
+            $pacient = User::findOrFail($dni);
+
+            $message = "funciona";
+
+            return view('pacient.edit', ['pacient' => $pacient, 'message' => $message]);
+        } catch (\Exception $e) {
+            $message = 'Pacient not found- ' . $e->getMessage();
+        }
+    }
+
+    public function validateDni($dni)
+    {
+        $nifRegEx = '/^[0-9]{8}[A-Z]$/i';
+        $letras = "TRWAGMYFPDXBNJZSQVHLCKE";
+        if (preg_match($nifRegEx, $dni)) {
+            if ($letras[(substr($dni, 0, 7) % 23)] == $dni[8]) {
+                return "funciona";
+            }
+            return "no sirve 1";
+        }
+        return "no sirve";
+    }
 }
