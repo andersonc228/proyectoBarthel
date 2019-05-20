@@ -18,7 +18,7 @@ class AdministratorController extends Controller
         // Preguntar al profe como enviar el mensaje
 
         if ($this->validatePassword($pass1, $pass2)) {
-            $message = "User Created";
+            $message = "Pacient Created";
             //dd("guarada");
             RegisterController::createDoctor($request->all());
             return view('registers.registerPacient', ['message' => $message]);
@@ -33,10 +33,9 @@ class AdministratorController extends Controller
         $pass1 = $request->password;
         $pass2 = $request->password2;
 
-        // Preguntar al profe como enviar el mensaje
 
         if ($this->validatePassword($pass1, $pass2)) {
-            $message = "User Created";
+            $message = "Doctor Created";
             RegisterController::createDoctor($request->all());
             return view('registers.registerDoctor', ['message' => $message]);
         } else {
@@ -47,15 +46,12 @@ class AdministratorController extends Controller
 
     public function createAdministrator(Request $request)
     {
-
         $pass1 = $request->password;
         $pass2 = $request->password2;
 
-        // Preguntar al profe como enviar el mensaje
-
         if ($this->validatePassword($pass1, $pass2)) {
-            //RegisterController::createDoctor($request->all());
-            $message = "User Created";
+            RegisterController::createAdministrator($request->all());
+            $message = "Administrator Created";
             return view('home')->with(['message' => $message]);
         } else {
             $message = "The Password is incorrect";
@@ -79,5 +75,41 @@ class AdministratorController extends Controller
             $flag = false;
         }
         return $flag;
+    }
+
+
+    public function find(Request $request)
+    {
+
+        //validate DNI
+        if (!empty($request->dni)) {
+            $user = User::where("dni", $request->dni)->first();
+
+            if (!$user == null) {
+                $message = "User Find";
+                return view("pacient.edit", ['pacient' => $user, 'message' => $message]);
+            } else {
+                $message = 'Pacient not found ';
+                return view('find', ['message' => $message]);
+            }
+        }
+        $message = "Input DNI";
+
+        //$message=Session::put('key', 'value');
+        return view("find", ['message' => $message]);
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $dni = Session::get('dni');
+
+        if (!empty($request->dni)) { 
+            //buscar el metodo de actualizar un campo de la bbdd
+            $user = User::where("dni",$dni);
+        }
+
+        $message = "Input DNI";
+
+        return view("find", ['message' => $message]);
     }
 }

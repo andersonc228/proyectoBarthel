@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Reports;
 use Illuminate\Foundation\Auth\User;
+use Illuminate\Support\Facades\Session;
 
 class DoctorController extends Controller
 {
@@ -38,7 +39,6 @@ class DoctorController extends Controller
         try {
             RegisterController::createPacient($request->all());
             $message = "Pacient Created";
-
         } catch (\Exception $ex) {
 
             if ($ex->getCode() == 23000) {
@@ -56,8 +56,6 @@ class DoctorController extends Controller
     {
 
         $reports = new Reports();
-
-
 
         $reports->q1 = $request->eat;
         $reports->q2 = $request->micturition;
@@ -82,25 +80,35 @@ class DoctorController extends Controller
     public function find(Request $request)
     {
 
-        if (!empty($request->dni)) {
+        // if (!empty($request->dni)) {
 
+        //     $pacient = User::where("dni", $request->dni)->first();
 
-            $message = ($pacient = User::where("dni", $request->dni)->first());
+        //     $message = Session::get('message');
 
+        //     if (!$pacient == null) {
 
-            //dd($pacient = User::where($request->dni));
+        //         //recojo la fecha y la paso a date
+        //         $p = date('d/m/Y', strtotime("2019-09-09"));
 
-            //dd($pacient);
+        //         //dd(var_dump($p));
+        //         $newDateFormat = $p->format('d/m/Y');
+        //         dd(var_dump($newDateFormat));
+        //         //     dd(var_dump($pacient->bornDate));
+        //         // return view("pacient.edit", ['pacient' => $pacient, 'message' => $message]);
+        //     } else {
+        //         $message = 'Pacient not found ';
+        //         return view('find', ['message' => $message]);
+        //     }
+        //     // return view("find", ['message' => $message]); //->with('pacient',$pacient);
+        // }
 
-            // \dd($pacient);
+        // $message = "Input DNI";
 
-            //$this->validateDni($request->dni);
+        Session::put('dni', $request->dni);
 
-            return view("find", ['message' => $message]); //->with('pacient',$pacient);
+        $message = Session::get('dni');
 
-        }
-
-        $message = "Input DNI";
 
         return view("find", ['message' => $message]); //->with('pacient',$pacient);
     }
