@@ -16,24 +16,11 @@ class DoctorController extends Controller
     /**
      * function validate the data input 
      */
-    public function validateData(Request $request)
-    {
-        $alphabetic = "/^[a-z]*$/i";
-        $password = "/^[a-z]*$/i";
-
-        $request->validate([
-            'name' => "required|min:1|max:30|regex:$alphabetic",
-            'surname' => "required|min:1|max:30|regex:$alphabetic",
-            'email' => "required|min:1|max:30",
-            'dni' => "required|unique:users|min:1",
-            'bornDate' => "required|min:1|max:30|regex:$alphabetic",
-        ]);
-    }
     public function createPacient(Request $request)
     {
 
         //validar los datos fuera para practicas
-        //$this->validateData($request);
+        $this->validateData($request);
         //validate dni
         //$this->validateDni($request->dni());
         try {
@@ -47,14 +34,11 @@ class DoctorController extends Controller
                 $message = "No Data created - " . $ex->getMessage();
             }
         }
-        //dd($pacient = User::where("dni", $request->dni)->first());
-
         return view('registers.registerPacient', ['message' => $message]);
     }
 
     public function makeTest(Request $request)
     {
-
         $reports = new Reports();
 
         $reports->q1 = $request->eat;
@@ -68,64 +52,129 @@ class DoctorController extends Controller
         $reports->q9 = $request->hour;
         $reports->q10 = $request->micturition;
         $reports->total = 100; //por ahora
-        $reports->dniPacient = 12345; //por ahora
+        $reports->dniPacient = $request->dni;
         $reports->save();
 
-        echo json_encode($reports);
+        json_encode($reports);
 
-        return view("test.create");
+
+
+        return view("test.makeTest");
     }
 
 
-    public function find(Request $request)
+    public function managePacient(Request $request)
     {
 
-        // if (!empty($request->dni)) {
+        $user = User::where("dni", $request->dni)->first();
+        switch ($request->action) {
+            case 'update':
+                return view("pacient.editPacient", ['user' => $user]);;
+                break;
+            case 'makeTest':
+                return view("test.makeTest", ['user' => $user]);;
+                break;
+            case 'viewResults':
+                return $this->AllResultsPacient($request);
+        }
+    }
 
-        //     $pacient = User::where("dni", $request->dni)->first();
-
-        //     $message = Session::get('message');
-
-        //     if (!$pacient == null) {
-
-        //         //recojo la fecha y la paso a date
-        //         $p = date('d/m/Y', strtotime("2019-09-09"));
-
-        //         //dd(var_dump($p));
-        //         $newDateFormat = $p->format('d/m/Y');
-        //         dd(var_dump($newDateFormat));
-        //         //     dd(var_dump($pacient->bornDate));
-        //         // return view("pacient.edit", ['pacient' => $pacient, 'message' => $message]);
-        //     } else {
-        //         $message = 'Pacient not found ';
-        //         return view('find', ['message' => $message]);
-        //     }
-        //     // return view("find", ['message' => $message]); //->with('pacient',$pacient);
-        // }
-
-        // $message = "Input DNI";
-
-        Session::put('dni', $request->dni);
-
-        $message = Session::get('dni');
-
-
-        return view("find", ['message' => $message]); //->with('pacient',$pacient);
+    public function viewPacient(Request $request)
+    {
+        //validate DNI
+        if (!empty($request->dni)) {
+            //SELECT U.`email`, RU.role_id FROM `users` U INNER JOIN role_user RU ON U.`id` = RU.user_id WHERE U.dni = '12345'
+            $user = \DB::table('users')
+                ->join('role_user', 'users.id', '=', 'role_user.user_id')
+                ->where('users.dni', $request->dni)
+                ->get();
+            if (count($user) != 0) {
+                if ($user[0]->role_id == 2) {
+                    $message = "Pacient Find";
+                    return view("pacient.viewPacient", ['user' => $user[0], 'message' => $message]);
+                } else {
+                    $message = "User not found";
+                    return view("findView", ['message' => $message]);
+                }
+            } else {
+                $message = 'User not found ';
+                return view('findView', ['message' => $message]);
+            }
+        }
+        $message = "Input DNI";
     }
 
 
-    public function edit($dni)
+    public function modifyPacient(Request $request)
     {
+        switch ($request->action) {
+            case 'update':
+                return $this->update($request);
+                break;
+            case 'delete':
+                return $this->delete($request);
+                break;
+        }
+    }
+
+    public function update($request)
+    {
+        //validar los datos fuera para practicas
+        //$this->validateData($request);
+        //validate dni
+        //$this->validateDni($request->dni());
 
         try {
-            $pacient = User::findOrFail($dni);
+            \DB::table('users')
+                ->where('dni', $request->dni)
+                ->update(['name' => $request->name, 'surname' => $request->surname, 'bornDate' => $request->bornDate, 'email' => $request->email]);
+            $message = "Pacient Correctly Updated";
+            $user = User::where("dni", $request->dni)->first();
+            if ($user == null) {
+                $message = "Any Updated";
+                return view('pacient.editPacient', ['message' => $message]);
+            } else {
+                return view('pacient.editPacient', ['user' => $user, 'message' => $message]);
+            }
+        } catch (\Exception $ex) {
+            if ($ex->getCode() == 23000) {
+                $message = "Email Exist";
+            } else {
+                $message = "No Pacient Update ";
+            }
 
-            $message = "funciona";
-
-            return view('pacient.edit', ['pacient' => $pacient, 'message' => $message]);
-        } catch (\Exception $e) {
-            $message = 'Pacient not found- ' . $e->getMessage();
+            $user = User::where("dni", $request->dni)->first();
+            return view('pacient.editPacient', ['user' => $user, 'message' => $message]);
         }
+    }
+
+    public function delete($request)
+    {
+        try {
+            $user = User::where("dni", $request->dni)->first();
+
+            $user->delete();
+
+            $message = "User Delete";
+            return view("findView", ['message' => $message]);
+        } catch (\Exception $e) {
+            $message = "Could not delete user" . $e->getMessage();
+        }
+        return view('pacient.editPacient', ['user' => $user, 'message' => $message]);
+    }
+
+    public function validateData(Request $request)
+    {
+
+        $alphabetic = "/^[a-z]*$/i";
+
+        $request->validate([
+            'dni' => "required|min:9|max:9",
+            'name' => "required|min:1|max:50|regex:$alphabetic",
+            'surname' => "required|min:1|max:50|regex:$alphabetic",
+            'email' => "required|min:1|max:50",
+            'bornDate' => "required|min:1|max:50",
+        ]);
     }
 
     public function validateDni($dni)
@@ -139,5 +188,15 @@ class DoctorController extends Controller
             return "no sirve 1";
         }
         return "no sirve";
+    }
+
+    public function AllResultsPacient(Request $request)
+    {
+        $reports = Reports::all()->where('dniPacient', $request->dni);
+        $allReports = [];
+        for ($i = 0; $i < sizeof($reports); $i++) {
+            $allReports[$i] = $allReports + $reports[$i]->toArray();
+        }
+        dd(json_encode($allReports));
     }
 }

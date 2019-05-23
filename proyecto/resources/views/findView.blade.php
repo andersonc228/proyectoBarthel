@@ -1,20 +1,24 @@
 @extends('home')
-
 @section('content')
 <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                    @if(Auth::user()->hasRole('admin'))
-                        Find User
-                    @endif
-                    @if(Auth::user()->hasRole('doctor'))
-                        Find Pacient
-                    @endif
+                        @if(Auth::user()->hasRole('admin'))
+                            Find User
+                        @endif
+                        @if(Auth::user()->hasRole('doctor'))
+                            Find Pacient
+                        @endif
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ url('/find') }}">
+                        @if(Auth::user()->hasRole('admin'))
+                            <form method="POST" action="{{ url('/findPost') }}">
+                        @endif
+                        @if(Auth::user()->hasRole('doctor'))
+                            <form method="POST" action="{{ url('/findPostPacient') }}">
+                        @endif
                             @csrf
                             <div class="form-group">
                                 <label for="id">DNI *:</label>
@@ -23,7 +27,7 @@
                             <div class="form-group">
                                 <button class="btn btn-success" type="submit">Find</button>
                                 <button class="btn btn-danger" type="reset">Reset</button>
-                                <a class="btn btn-dark" href="{{ url('/find') }}">reload</a>
+                                <a class="btn btn-dark" href="{{ url('/findView') }}">reload</a>
                             </div>
                             <label class="alert alert-light">* Required fields</label>
                         </form>

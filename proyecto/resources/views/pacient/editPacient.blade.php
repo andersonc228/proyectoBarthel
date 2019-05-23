@@ -5,30 +5,32 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Edit Pacient {{$pacient->name ?? old('dni')}}</div>
+                    <div class="card-header">Edit Pacient {{$user->name ?? old('name')}}</div>
                     <div class="card-body">
-                        <form method="POST" action="{{ url('/pacient/modify') }}">
-                            @csrf
+                        @if(Auth::user()->hasRole('admin'))
+                            <form method="POST" action="{{ url('/pacient/modifyUser') }}">
+                        @endif
+                        @if(Auth::user()->hasRole('doctor'))
+                            <form method="POST" action="{{ url('/pacient/modifyPacient') }}">
+                        @endif
+                        @csrf
                             <div class="form-group">
-                                <label for="name">DNI *:</label>
-                                <input class="form-control" type="text" id="dni" name="nif" value="{{ $pacient->dni }}" />
+                                <label for="dni">DNI *:</label>
+                                <input readonly class="form-control" type="text" id="dni" name="dni" value="{{ $user->dni }}" />
                                 <label for="name">Name *:</label>
-                                <input class="form-control" type="text" id="name" name="name" value="{{ $pacient->name }}" />
+                                <input class="form-control" type="text" id="name" name="name" value="{{ $user->name }}" />
                                 <label for="name">Surname *:</label>
-                                <input class="form-control" type="text" id="surname" name="surname" value="{{ $pacient->surname }}" />
+                                <input class="form-control" type="text" id="surname" name="surname" value="{{ $user->surname }}" />
                                 <label for="name">Born Date *:</label>
-                                <input class="form-control" type="date" id="bornDate" name="bornDate" value="{{date('d/m/Y', strtotime( $pacient->bornDate)) }}" />
+                                <input class="form-control" type="date" id="bornDate" name="bornDate" value="{{date('Y-m-d',strtotime($user->bornDate))}}" />
                                 <label for="name">Email *:</label>
-                                <input class="form-control" type="text" id="email" name="email" value="{{ $pacient->email }}" />
+                                <input class="form-control" type="text" id="email" name="email" value="{{ $user->email }}" />
                             </div>
                             <div class="form-group">
                                 <button class="btn btn-success" type="submit" name="action" value="update">update</button>
                                 <button class="btn btn-danger" type="submit" name="action" value="delete">delete</button>
-                                <button class="btn btn-warning" type="reset">reset</button>
                             </div>
-
                             <label class="alert alert-light">* Required fields</label>
-                            <input type="hidden" id="id" name="id" value="{{ $objProduct->id ?? old('id') }}">
                         </form>
                     </div>
                 </div>

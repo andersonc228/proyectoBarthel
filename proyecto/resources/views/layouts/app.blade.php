@@ -60,25 +60,25 @@
                                     <a class="dropdown-item" href="{{ route('registerAdministrator') }}">
                                         Register Administrator
                                     </a>
-                                    <a class="dropdown-item" href="{{ route('find') }}">
+                                    <a class="dropdown-item" href="{{ route('findView') }}">
                                         Find User
+                                    </a>        
+                                    <a class="dropdown-item" href="{{ route('changePassword') }}">
+                                        Update Password
                                     </a>        
                                 @endif
                                 @if(Auth::user()->hasRole('doctor'))
                                      <a class="dropdown-item" href="{{ route('registerPacient') }}">
                                         Register Pacient
                                     </a>
-                                     <a class="dropdown-item" href="{{ route('makeTest') }}">
-                                        Make Test
-                                    </a>
-                                    <a class="dropdown-item" href="">
+                                    <a class="dropdown-item" href="{{route('newAppointment')}}">
                                         Appointments
                                     </a>
-                                    <a class="dropdown-item" href="{{ route('find') }}">
+                                    <a class="dropdown-item" href="{{ route('findView') }}">
                                         Search Pacient
                                     </a>
-                                    <a class="dropdown-item" href="">
-                                        View Results
+                                    <a class="dropdown-item" href="{{ route('changePassword') }}">
+                                        Update Password
                                     </a>                                                                          
                                 @endif
                                 @if(Auth::user()->hasRole('pacient'))
@@ -87,7 +87,10 @@
                                 </a>
                                 <a class="dropdown-item" href="">
                                         View Result
-                                </a> 
+                                </a>
+                                <a class="dropdown-item" href="{{ route('changePassword') }}">
+                                        Update Password
+                                </a>  
                                 @endif
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();

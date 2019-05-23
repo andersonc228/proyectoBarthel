@@ -28,7 +28,6 @@ class CreateReportsTable extends Migration
             $table->mediumInteger('total')->length(3);
             $table->string('dniPacient',10);
             $table->timestamps();
-
             $table->foreign('dniPacient')->references( 'dni')->on( 'users');
         });
     }

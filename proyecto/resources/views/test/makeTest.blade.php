@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-header">Make Pacient Test</div>
                     <div class="card-body">
-                        <form method="POST" action="{{ url('/test/create') }}">
+                        <form method="POST" action="{{ url('/test/makeTest') }}">
                             @csrf
                             <div class="col-12">
                                 <div class="form-group col-3">
@@ -96,6 +96,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <input hidden class="form-control" type="text" id="dni" name="dni" value="{{ $user->dni }}" />
                                 <button class="btn btn-success" type="submit">Submint</button>
                                 <button class="btn btn-danger" type="reset">reset</button>
                                 <a class="btn btn-info" href="">Go Back</a>
