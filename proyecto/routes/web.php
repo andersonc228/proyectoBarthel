@@ -32,12 +32,21 @@ Route::view('administrator.editDoctor', 'editDoctor')->name('editDoctor');
 Route::view('updatePassword', 'updatePassword')->name('updatePassword');
 
 Route::view( 'appointments/newAppointment', 'appointments.newAppointment')->name( 'newAppointment');
+Route::view( 'appointments/homeAppointment', 'appointments.homeAppointments')->name( 'homeAppointments');
+Route::view( 'appointments/viewAppointments', 'appointments.viewAppointments')->name( 'viewAppointments');
+Route::post('/appointments/newAppointments', 'DoctorController@makeAppointment');
+Route::post('/appointments/homeAppointments', 'ApointmentController@viewAppointments');
+Route::post('/appointments/viewAppointments', 'ApointmentController@appointmentPacient');
+
+Route::post( '/appointments/appointmentFind', 'CategoryController@listAll')->name('catlist');
+
+Route::view( 'appointments/appointmentFind', 'appointments.appointmentFind')->name( 'appointment');
+
 
 
 Route::Post('registers/registerDoctor', 'AdministratorController@createDoctor');
 Route::Post('registers/registerPacient', 'AdministratorController@createPacient');
 Route::Post('registers/registerAdministrator', 'AdministratorController@createAdministrator');
-Route::Post('registers/registerPacient', 'DoctorController@createPacient');
 
 Route::Post('test/makeTest', 'DoctorController@makeTest');
 Route::Post('findPost', 'AdministratorController@findAdmin');
@@ -45,7 +54,7 @@ Route::Post('findPostPacient', 'DoctorController@viewPacient');
 Route::post('/changePassword', 'HomeController@changePassword')->name('changePassword');
 
 Route::post('findDataPacient', 'DoctorController@managePacient');
-Route::post('makeAppointment', 'DoctorController@makeAppointment');
+
 
 Route::Post('/administrator/modifyUser', 'AdministratorController@modifyUser');
 

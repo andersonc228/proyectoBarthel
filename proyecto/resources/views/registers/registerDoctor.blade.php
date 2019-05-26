@@ -11,17 +11,19 @@
                             @csrf
                             <div class="form-group container">
                                 <label for="name">DNI *:</label>
-                                <input class="form-control" type="text" id="dni" name="dni" value="{{ old('dni') }}" />
+                                <input class="form-control" type="text" id="dni" name="dni" value="{{ old('dni') }}"required />
                                 <label for="name">Name *:</label>
-                                <input class="form-control" type="text" id="name" name="name" value="{{ old('name') }}" />
+                                <input class="form-control" type="text" id="name" name="name" value="{{ old('name') }}" required/>
                                 <label for="name">Surname *:</label>
-                                <input class="form-control" type="text" id="surname" name="surname" value="{{ old('surname') }}" />
+                                <input class="form-control" type="text" id="surname" name="surname" value="{{ old('surname') }}"required />
                                 <label for="name">Email *:</label>
-                                <input class="form-control" type="text" id="email" name="email" value="{{ old('email') }}" />
-                                <label for="name">Profession *:</label>
-                                <input class="form-control" type="text" id="profession" name="profession" value="{{ old('profession') }}" />
+                                <input class="form-control" type="text" id="email" name="email" value="{{ old('email') }}" required/>
+                                {{-- <label for="name">Profession *:</label>
+                                <input class="form-control" type="text" id="profession" name="profession" value="{{ old('profession') }}" required/> --}}
                                 <label for="name">Born Date *:</label>
-                                <input class="form-control" type="date" id="bornDate" name="bornDate" value="{{ old('bornDate') }}" />
+                                <input class="form-control" type="date" id="bornDate" name="bornDate" value="{{ old('bornDate') }}" required/>
+                                <label for="name">Phone *:</label>
+                                <input class="form-control" type="number" id="phone" name="phone" value="{{ old('phone') }}" required/>
                             </div>
                             <div class="form-group container">
                                 <button class="btn btn-success" type="submit">create</button>

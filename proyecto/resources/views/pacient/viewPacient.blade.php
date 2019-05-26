@@ -14,6 +14,7 @@
                             <p class="card-text col-md-6">Surname: {{$user->surname ?? old('surname')}}</p>
                             <p class="card-text col-md-5">Email: {{$user->email ?? old('email')}}</p>
                             <p class="card-text col-md-5">Born Date: {{date('Y-m-d',strtotime($user->bornDate)) ?? old('bornDate')}}</p>
+                            <p class="card-text col-md-5">Phone: {{$user->phone ?? old('bornDate')}}</p>
                             <div class="form-group">
                                 <div class="form-group">
                                     <button class="btn btn-success" type="submit" name="action" value="makeTest">Make Test</button>

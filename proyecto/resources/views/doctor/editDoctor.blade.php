@@ -20,11 +20,13 @@
                                 <input class="form-control" type="date" id="bornDate" name="bornDate" value="{{date('Y-m-d', strtotime( $user->bornDate)) }}" />
                                 <label for="name">Email *:</label>
                                 <input class="form-control" type="text" id="email" name="email" value="{{ $user->email }}" />
+                                <label for="name">Phone *:</label>
+                                <input class="form-control" type="number" id="phone" name="phone" value="{{ $user->phone }}" />
                             </div>
-                            <div class="form-group">
-                                <button class="btn btn-success" type="submit" name="action" value="update">update</button>
-                                <button class="btn btn-danger" type="submit" name="action" value="delete">delete</button>
-                            </div>
+                                <div class="form-group">
+                                    <button class="btn btn-success" type="submit" name="action" value="update">update</button>
+                                    <button class="btn btn-danger" type="submit" name="action" value="delete">delete</button>
+                                </div>
                             <label class="alert alert-light">* Required fields</label>
                         </form>
                     </div>

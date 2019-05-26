@@ -10,95 +10,118 @@ use Illuminate\Support\Facades\Session;
 
 class AdministratorController extends Controller
 {
-    /**
-     * Recibe pacient
-     * return view
-     */
     public function createPacient(Request $request)
     {
+        $this->validateData($request);
 
-        // $this->validateData($request);
+        $dniValid = $this->validateDni($request->dni);
+        $dateValid = $this->validateDate($request->bornDate);
 
-        try {
-            RegisterController::createDoctor($request->all());
-            $message = "Pacient Created";
-            return view('registers.registerPacient', ['message' => $message]);
-        } catch (\Exception $ex) {
-            if ($ex->getCode() == 23000) {
-                $message = "DNI o Email Exist";
-            } else {
-                $message = "No pacient created - " . $ex->getMessage();
+        if ($dateValid) {
+            if ($dniValid) {
+                try {
+                    RegisterController::createDoctor($request->all());
+                    $message = "Pacient Created";
+                    return view('registers.registerPacient', ['message' => $message]);
+                } catch (\Exception $ex) {
+                    if ($ex->getCode() == 23000) {
+                        $message = "DNI o Email Exist";
+                    } else {
+                        $message = "No pacient created - " . $ex->getMessage();
+                    }
+                    return view('registers.registerPacient', ['message' => $message]);
+                }
             }
+            $message = "Input DNI valid";
             return view('registers.registerPacient', ['message' => $message]);
         }
+        $message = "The date is less today";
+        return view('registers.registerPacient', ['message' => $message]);
     }
 
     public function createDoctor(Request $request)
     {
 
-        // $this->validateData($request);
+        $this->validateData($request);
 
-        try {
-            RegisterController::createDoctor($request->all());
-            $message = "Doctor Created";
-            return view('registers.registerDoctor', ['message' => $message]);
-        } catch (\Exception $ex) {
-            if ($ex->getCode() == 23000) {
-                $message = "DNI o Email Exist";
-            } else {
-                $message = "No Doctor created - " . $ex->getMessage();
+        $dniValid = $this->validateDni($request->dni);
+
+        if ($dniValid) {
+
+            try {
+                RegisterController::createDoctor($request->all());
+                $message = "Doctor Created";
+                return view('registers.registerDoctor', ['message' => $message]);
+            } catch (\Exception $ex) {
+                if ($ex->getCode() == 23000) {
+                    $message = "DNI o Email Exist";
+                } else {
+                    $message = "No Doctor created - " . $ex->getMessage();
+                }
+                return view('registers.registerDoctor', ['message' => $message]);
             }
-            return view('registers.registerDoctor', ['message' => $message]);
         }
+        $message = "Input DNI valid";
+        return view('registers.registerDoctor', ['message' => $message]);
     }
 
     public function createAdministrator(Request $request)
     {
-        // $this->validateData($request);
-        try {
-            RegisterController::createDoctor($request->all());
-            $message = "Administrator Created";
-            return view('registers.registerAdministrator', ['message' => $message]);
-        } catch (\Exception $ex) {
-            if ($ex->getCode() == 23000) {
-                $message = "DNI o Email Exist";
-            } else {
-                $message = "No Administrator created - " . $ex->getMessage();
+        $this->validateData($request);
+
+        $dniValid = $this->validateDni($request->dni);
+
+        if ($dniValid) {
+            try {
+                RegisterController::createDoctor($request->all());
+                $message = "Administrator Created";
+                return view('registers.registerAdministrator', ['message' => $message]);
+            } catch (\Exception $ex) {
+                if ($ex->getCode() == 23000) {
+                    $message = "DNI o Email Exist";
+                } else {
+                    $message = "No Administrator created - " . $ex->getMessage();
+                }
+                return view('registers.registerAdministrator', ['message' => $message]);
             }
-            return view('registers.registerAdministrator', ['message' => $message]);
         }
+        $message = "Input DNI valid";
+        return view('registers.registerAdministrator', ['message' => $message]);
     }
 
     public function findAdmin(Request $request)
     {
-        //validate DNI
-        if (!empty($request->dni)) {
-            //SELECT U.`email`, RU.role_id FROM `users` U INNER JOIN role_user RU ON U.`id` = RU.user_id WHERE U.dni = '12345'
-            $user = \DB::table('users')
-                ->join('role_user', 'users.id', '=', 'role_user.user_id')
-                ->where('users.dni', $request->dni)
-                ->get();
+        $dniValid = $this->validateDni($request->dni);
 
-            if (count($user) != 0) {
+        if ($dniValid) {
+            if (!empty($request->dni)) {
+                //SELECT U.`email`, RU.role_id FROM `users` U INNER JOIN role_user RU ON U.`id` = RU.user_id WHERE U.dni = '12345'
+                $user = \DB::table('users')
+                    ->join('role_user', 'users.id', '=', 'role_user.user_id')
+                    ->where('users.dni', $request->dni)
+                    ->get();
 
-                if ($user[0]->role_id == 1) {
-                    $message = "Administrator Find";
-                    return view("administrator.editAdministrator", ['user' => $user[0], 'message' => $message]);
-                } else if ($user[0]->role_id == 2) {
-                    $message = "Pacient Find";
-                    return view("pacient.editPacient", ['user' => $user[0], 'message' => $message]);
+                if (count($user) != 0) {
+
+                    if ($user[0]->role_id == 1) {
+                        $message = "Administrator Find";
+                        return view("administrator.editAdministrator", ['user' => $user[0], 'message' => $message]);
+                    } else if ($user[0]->role_id == 2) {
+                        $message = "Pacient Find";
+                        return view("pacient.editPacient", ['user' => $user[0], 'message' => $message]);
+                    } else {
+                        $message = "Doctor Find";
+                        return view("doctor.editDoctor", ['user' => $user[0], 'message' => $message]);
+                    }
                 } else {
-                    $message = "Doctor Find";
-                    return view("doctor.editDoctor", ['user' => $user[0], 'message' => $message]);
+                    $message = 'User not found ';
+                    return view('findView', ['message' => $message]);
                 }
-            } else {
-                $message = 'User not found ';
-                return view('findView', ['message' => $message]);
             }
+            $message = "Input DNI";
+            return view("findView", ['message' => $message]);
         }
-        $message = "Input DNI";
-
-        //$message=Session::put('key', 'value');
+        $message = "Input DNI valid";
         return view("findView", ['message' => $message]);
     }
 
@@ -116,10 +139,12 @@ class AdministratorController extends Controller
 
     public function update($request)
     {
+
         try {
+            $this->validateData($request);
             \DB::table('users')
                 ->where('dni', $request->dni)
-                ->update(['name' => $request->name, 'surname' => $request->surname, 'bornDate' => $request->bornDate, 'email' => $request->email]);
+                ->update(['name' => $request->name, 'surname' => $request->surname, 'bornDate' => $request->bornDate, 'email' => $request->email, 'phone' => $request->phone]);
             $message = "User Correctly Updated";
             $user = User::where("dni", $request->dni)->first();
             if ($user == null) {
@@ -132,7 +157,7 @@ class AdministratorController extends Controller
             if ($ex->getCode() == 23000) {
                 $message = "Email Exist";
             } else {
-                $message = "No User Update ";
+                $message = "Check all the fields";
             }
 
             $user = User::where("dni", $request->dni)->first();
@@ -156,15 +181,44 @@ class AdministratorController extends Controller
 
     public function validateData(Request $request)
     {
-
-        $alphabetic = "/^[a-z]*$/i";
+        $alphabetic = "/^[A-Za-z\s]*$/i";
+        $numeric = "/[0-9]{9}/";
+        $email = "/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/";
 
         $request->validate([
             'dni' => "required|min:9|max:9",
             'name' => "required|min:1|max:50|regex:$alphabetic",
             'surname' => "required|min:1|max:50|regex:$alphabetic",
-            'email' => "required|min:1|max:50",
-            'bornDate' => "required|min:1|max:50",
+            'email' => "required|min:1|max:50|regex:$email",
+            'bornDate' => "required",
+            'phone' => "required|regex:$numeric"
         ]);
+    }
+
+    public function validateDni($dni)
+    {
+        try {
+            $letra = substr($dni, -1);
+            $numeros = substr($dni, 0, -1);
+            if (substr("TRWAGMYFPDXBNJZSQVHLCKE", $numeros % 23, 1) == $letra && strlen($letra) == 1 && strlen($numeros) == 8) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public function validateDate($date1)
+    {
+        $fecha_actual = strtotime(date("d-m-Y", time()));
+        $fecha_entrada = strtotime($date1);
+
+        if ($fecha_entrada < $fecha_actual) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

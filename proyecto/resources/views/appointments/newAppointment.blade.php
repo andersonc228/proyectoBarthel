@@ -7,16 +7,17 @@
             <div class="card">
                 <div class="card-header">Make Appointment</div>
                 <div class="card-body">
-                    <form method="POST" action="{{ url('/appointments/makeAppointment') }}">
+                    <form method="POST" action="{{ url('/appointments/newAppointment') }}">
                         @csrf
                         <div class="form-group">
                             <label for="dni">DNI Pacient *:</label>
-                            <input class="form-control" type="text" id="dni" name="dni" value="" required/>
+                        <input class="form-control" type="text" id="dni" name="dni" value="{{ old('dni') }}" required/>
                             <label for="name">Date Appointment *:</label>
                             <input class="form-control" type="date" id="appointment" name="appointment" value="" required/>
                         </div>
                         <div class="form-group">
                             <button class="btn btn-success" type="submit">Make Appointment</button>
+                            <a class="btn btn-danger" href="homeAppointment">Return</a>
                         </div>
                         <label class="alert alert-light">* Required fields</label>
                     </form>  

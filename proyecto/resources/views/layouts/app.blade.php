@@ -71,7 +71,7 @@
                                      <a class="dropdown-item" href="{{ route('registerPacient') }}">
                                         Register Pacient
                                     </a>
-                                    <a class="dropdown-item" href="{{route('newAppointment')}}">
+                                    <a class="dropdown-item" href="{{route('homeAppointments')}}">
                                         Appointments
                                     </a>
                                     <a class="dropdown-item" href="{{ route('findView') }}">

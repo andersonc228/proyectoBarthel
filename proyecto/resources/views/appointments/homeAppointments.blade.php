@@ -5,19 +5,17 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">View Appointment Pacient</div>
+                <div class="card-header">Section Apointments</div>
                 <div class="card-body">
-                    <form method="POST" action="{{ url('/appointments/viewAppointments') }}">
+                    <form method="POST" action="{{ url('/appointments/homeAppointments') }}">
                         @csrf
-                        <div class="form-group">
-                            <label for="dni">DNI Pacient *:</label>
-                            <input class="form-control" type="text" id="dni" name="dni" value="{{ old('dni') }}" required/>
-                         </div>
-                        <div class="form-group">
-                            <button class="btn btn-success" type="submit" name="action">View Appointments</button>
-                            <a class="btn btn-danger" href="homeAppointment">Return</a>
+                        <div class="form-group container">
+                            <p>Select One Option</p>
                         </div>
-                        <label class="alert alert-light">* Required fields</label>
+                         <div class="form-group">
+                            <button class="btn btn-success" type="submit" name="action" value="viewAppointments">View Pacient Appointments</button>
+                            <button class="btn btn-success" type="submit" name="action" value="makeAppointment">Make new Appointment</button>
+                        </div>
                     </form>  
                 </div>
             </div>

@@ -9,6 +9,7 @@
                     <div class="card-body">
                         @if(Auth::user()->hasRole('admin'))
                             <form method="POST" action="{{ url('/pacient/modifyUser') }}">
+                                {{ method_field('POST') }}
                         @endif
                         @if(Auth::user()->hasRole('doctor'))
                             <form method="POST" action="{{ url('/pacient/modifyPacient') }}">
@@ -25,6 +26,8 @@
                                 <input class="form-control" type="date" id="bornDate" name="bornDate" value="{{date('Y-m-d',strtotime($user->bornDate))}}" />
                                 <label for="name">Email *:</label>
                                 <input class="form-control" type="text" id="email" name="email" value="{{ $user->email }}" />
+                                <label for="name">Phone *:</label>
+                                <input class="form-control" type="number" id="phone" name="phone" value="{{ $user->phone }}" />
                             </div>
                             <div class="form-group">
                                 <button class="btn btn-success" type="submit" name="action" value="update">update</button>
