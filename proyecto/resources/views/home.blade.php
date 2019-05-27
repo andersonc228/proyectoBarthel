@@ -9,8 +9,8 @@
         @section('content')
         <div class="col-md-8">
             <div class="card">
+                @if(null!=Auth::user())
                 <div class="card-header">Welcome {{ Auth::user()->name }}</div>
-
                 <div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
@@ -23,6 +23,7 @@
                     @endif
                     You are logged in!
                 </div>
+                @endif
             </div>
         </div>
     </div>

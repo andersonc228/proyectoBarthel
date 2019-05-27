@@ -10,10 +10,11 @@
                     <form method="POST" action="{{ url('/appointments/homeAppointments') }}">
                         @csrf
                         <div class="form-group container">
-                            <p>Select One Option</p>
+                            <p>Select Option</p>
+                            <br>
                         </div>
                          <div class="form-group">
-                            <button class="btn btn-success" type="submit" name="action" value="viewAppointments">View Pacient Appointments</button>
+                            <button class="btn btn-success" type="submit" name="action" value="viewAppointments">View Appointments</button>
                             <button class="btn btn-success" type="submit" name="action" value="makeAppointment">Make new Appointment</button>
                         </div>
                     </form>  

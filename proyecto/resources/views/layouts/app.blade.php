@@ -82,7 +82,7 @@
                                     </a>                                                                          
                                 @endif
                                 @if(Auth::user()->hasRole('pacient'))
-                                <a class="dropdown-item" href="">
+                                <a class="dropdown-item" href="{{route('pacientFindAppointment')}}">
                                         Appointments
                                 </a>
                                 <a class="dropdown-item" href="">

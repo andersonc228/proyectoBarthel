@@ -7,7 +7,8 @@
                     <div class="card">
                         <div class="card-header">Section Apointments</div>
                         <div class="card-body">
-                            <form method="POST" action="{{ url('/appointments/viewAppointments') }}">
+                            <form method="POST" action="{{ url('appointments/manageAppointment') }}">
+                                @csrf
                                 <table class="table ">
                                     <tr class="thead-light">
                                         <th>Date</th>
@@ -18,10 +19,10 @@
                                         <td><p>{{ $apointment->dniPacient}}</p></td>
                                     </tr>
                                 </table>
-                                <input hidden class="form-control" type="number" id="phone" name="phone" value="{{ $apointment->id}}" />
-                                <button class="btn btn-success" type="submit" name="action" value="">Edit Appointment</button>
-                                <button class="btn btn-danger" type="submit" name="action" value="">Delete Appointment</button>
-                                <a class="btn btn-success" href="homeAppointment">Return</a>
+                                <input hidden class="form-control" type="number" id="id" name="id" value="{{ $apointment->id}}" />
+                                <button class="btn btn-success" type="submit" name="action" value="modify">Edit Appointment</button>
+                                <button class="btn btn-danger" type="submit" name="action" value="delete">Delete Appointment</button>
+                                <a class="btn btn-primary" href="homeAppointment">Return</a>
                             </form>
                         </div>
                     </div>

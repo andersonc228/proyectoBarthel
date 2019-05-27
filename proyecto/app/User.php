@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'surname','dni','bornDate','email', 'password',
+        'name', 'surname','dni','bornDate','email', 'phone','password',
     ]; 
 
     /**
@@ -49,7 +49,7 @@ class User extends Authenticatable
         if ($this->hasAnyRole($roles)) {
             return true;
         }
-        abort(401, 'Esta acción no está autorizada.');
+        abort(401, 'This action dont have autorization.');
     }
     public function hasAnyRole($roles)
     {

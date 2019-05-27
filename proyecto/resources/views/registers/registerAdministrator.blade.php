@@ -18,8 +18,6 @@
                                 <input class="form-control" type="text" id="surname" name="surname" value="{{ old('surname') }}"required />
                                 <label for="name">Email *:</label>
                                 <input class="form-control" type="text" id="email" name="email" value="{{ old('email') }}" required/>
-                                {{-- <label for="name">Profession *:</label>
-                                <input class="form-control" type="text" id="profession" name="profession" value="{{ old('profession') }}" required/> --}}
                                 <label for="name">Born Date *:</label> 
                                 <input class="form-control" type="date" id="bornDate" name="bornDate" value="{{ old('bornDate') }}" required/>
                                 <label for="name">Phone *:</label>

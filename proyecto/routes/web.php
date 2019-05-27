@@ -19,8 +19,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-//Route::get('/welcome');
-
 Route::view('registers/registerDoctor', 'registers.registerDoctor')->name('registerDoctor');
 Route::view('registers/registerPacient', 'registers.registerPacient')->name('registerPacient');
 Route::view('registers/registerAdministrator', 'registers.registerAdministrator')->name('registerAdministrator');
@@ -31,18 +29,19 @@ Route::view('administrator.editPacient', 'editPacient')->name('editPacient');
 Route::view('administrator.editDoctor', 'editDoctor')->name('editDoctor');
 Route::view('updatePassword', 'updatePassword')->name('updatePassword');
 
-Route::view( 'appointments/newAppointment', 'appointments.newAppointment')->name( 'newAppointment');
-Route::view( 'appointments/homeAppointment', 'appointments.homeAppointments')->name( 'homeAppointments');
-Route::view( 'appointments/viewAppointments', 'appointments.viewAppointments')->name( 'viewAppointments');
-Route::post('/appointments/newAppointments', 'DoctorController@makeAppointment');
+
+Route::view('appointments/newAppointment', 'appointments.newAppointment')->name('newAppointment');
+Route::view('appointments/homeAppointment', 'appointments.homeAppointments')->name('homeAppointments');
+Route::view('appointments/viewAppointments', 'appointments.viewAppointments')->name('viewAppointments');
+Route::post('/appointments/newAppointment', 'DoctorController@makeAppointment');
 Route::post('/appointments/homeAppointments', 'ApointmentController@viewAppointments');
 Route::post('/appointments/viewAppointments', 'ApointmentController@appointmentPacient');
-
-Route::post( '/appointments/appointmentFind', 'CategoryController@listAll')->name('catlist');
-
-Route::view( 'appointments/appointmentFind', 'appointments.appointmentFind')->name( 'appointment');
+Route::post( 'appointments/manageAppointment', 'ApointmentController@manageAppointment');
+Route::post( 'appointments/modifyAppointments', 'ApointmentController@modify');
 
 
+Route::view('appointments/appointmentFind', 'appointments.appointmentFind')->name('appointment');
+Route::view( 'pacientFindAppointment', 'pacient.pacientFindAppointment')->name( 'pacientFindAppointment');
 
 Route::Post('registers/registerDoctor', 'AdministratorController@createDoctor');
 Route::Post('registers/registerPacient', 'AdministratorController@createPacient');
@@ -60,7 +59,7 @@ Route::Post('/administrator/modifyUser', 'AdministratorController@modifyUser');
 
 Route::Post('/pacient/modifyUser', 'AdministratorController@modifyUser');
 Route::Post('/pacient/modifyPacient', 'DoctorController@modifyPacient');
+Route::post('pacient/pacientViewAppointment', 'ApointmentController@pacientAppointment');
 
 Route::get('/changePassword', 'HomeController@showChangePasswordForm');
 Route::get('/pacient/edit/{id}', 'DoctorController@edit');
-
