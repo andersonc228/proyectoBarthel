@@ -50,7 +50,7 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     
-                                @if(Auth::user()->hasRole('admin'))
+                                <!--@if(Auth::user()->hasRole('admin'))
                                     <a class="dropdown-item" href="{{ route('registerDoctor') }}">
                                         Register Doctor
                                     </a>
@@ -66,7 +66,7 @@
                                     <a class="dropdown-item" href="{{ route('changePassword') }}">
                                         Update Password
                                     </a>        
-                                @endif
+                                @endif-->
                                 @if(Auth::user()->hasRole('doctor'))
                                      <a class="dropdown-item" href="{{ route('registerPacient') }}">
                                         Register Pacient
@@ -82,7 +82,7 @@
                                     </a>                                                                          
                                 @endif
                                 @if(Auth::user()->hasRole('pacient'))
-                                <a class="dropdown-item" href="{{route('pacientFindAppointment')}}">
+                                <a class="dropdown-item" href="">
                                         Appointments
                                 </a>
                                 <a class="dropdown-item" href="">
